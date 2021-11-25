@@ -1,0 +1,3 @@
+* emacs config
+brand new emacs config version infinity 
+so far it's response and minimal, hopefully it doesn't get worse again.
