@@ -170,7 +170,7 @@
 (use-package editorconfig
   :straight t
   :config
-  (editorIconfig-mode 1))
+  (editorconfig-mode 1))
 
 ;;;;;;;; languages
 
