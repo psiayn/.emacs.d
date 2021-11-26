@@ -166,6 +166,12 @@
 (use-package dap-mode
   :straight t)
 
+;;;;;;;; editorconfig
+(use-package editorconfig
+  :straight t
+  :config
+  (editorIconfig-mode 1))
+
 ;;;;;;;; languages
 
 ;;;; golang
