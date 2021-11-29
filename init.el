@@ -83,10 +83,14 @@
   ("C-s" . consult-line))
 
 ;; themes
-(use-package yoshi-theme
+(use-package gotham-theme
   :straight t
   :config
-  (load-theme 'yoshi t))
+  (load-theme 'gotham t))
+
+;; transparency
+(set-frame-parameter (selected-frame) 'alpha '(95 . 85))
+(add-to-list 'default-frame-alist '(alpha . (95 . 85)))
 
 ;; tree-sitter
 (use-package tree-sitter
@@ -120,6 +124,9 @@
     (exec-path-from-shell-initialize))
   (when (memq window-system '(mac ns x))
     (exec-path-from-shell-initialize)))
+
+;; nethack
+(straight-use-package 'nethack)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;                            lsp-mode                            ;;;;;;;;;;;;;;
@@ -189,3 +196,23 @@
   :config
   (add-hook 'go-mode-hook #'lsp-deferred)
   (add-hook 'go-mode-hook #'lsp-go-install-save-hooks))
+
+;;;; rust
+(use-package rust-mode
+  :straight t
+  :config
+  (add-hook 'rust-mode-hook #'lsp-deferred))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   '("a66b97790776954a16911f901355beb2cf1607eb8682e6d8a9654aac2a0da902" "94f9c204b7fdcef8fcc6029e10b77dea1387fe4c2380cd270d196a7f59bdb1eb" "4e12f047c0ee29f5d5c1c70855d382838dc97cda06fa962d78e407ea1384ecf3" default))
+ '(tool-bar-mode nil))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((t (:family "JetBrainsMono Nerd Font" :foundry "JB" :slant normal :weight normal :height 143 :width normal)))))
