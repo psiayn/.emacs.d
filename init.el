@@ -82,15 +82,18 @@
   :bind
   ("C-s" . consult-line))
 
-;; themes
-(use-package gotham-theme
+;; org-mode go brr
+(use-package org-bullets
   :straight t
   :config
-  (load-theme 'gotham t))
+  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
-;; transparency
-(set-frame-parameter (selected-frame) 'alpha '(95 . 85))
-(add-to-list 'default-frame-alist '(alpha . (95 . 85)))
+
+;; themes
+(use-package modus-themes
+  :straight t
+  :config
+  (load-theme 'modus-vivendi t))
 
 ;; tree-sitter
 (use-package tree-sitter
@@ -202,6 +205,20 @@
   :straight t
   :config
   (add-hook 'rust-mode-hook #'lsp-deferred))
+
+
+;;;; haskell
+(use-package haskell-mode
+  :straight t)
+(use-package lsp-haskell
+  :straight t
+  :config
+  (add-hook 'haskell-mode-hook #'lsp-deferred))
+(defun org-babel-execute:runhaskell (body params)
+  (org-babel-eval "runhaskell"
+                  (org-babel-expand-body:generic body params)))
+(add-to-list 'org-src-lang-modes '("runhaskell" . haskell))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
