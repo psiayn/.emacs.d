@@ -219,6 +219,9 @@
                   (org-babel-expand-body:generic body params)))
 (add-to-list 'org-src-lang-modes '("runhaskell" . haskell))
 
+;;;; nix
+(use-package nix-mode
+  :straight t)
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
