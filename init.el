@@ -90,10 +90,10 @@
 
 
 ;; themes
-(use-package modus-themes
+(use-package gruvbox-theme
   :straight t
   :config
-  (load-theme 'modus-vivendi t))
+  (load-theme 'gruvbox t))
 
 ;; tree-sitter
 (use-package tree-sitter
@@ -134,7 +134,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;                            lsp-mode                            ;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 ;; completion engine
 (use-package company
   :straight t
@@ -176,11 +175,22 @@
 (use-package dap-mode
   :straight t)
 
+(use-package lsp-mode
+  :straight t
+  :config
+  (define-key lsp-mode-map (kbd "C-c l") lsp-command-map))
+
 ;;;;;;;; editorconfig
 (use-package editorconfig
   :straight t
   :config
   (editorconfig-mode 1))
+
+;; yasnippets
+(use-package yasnippet
+  :straight t
+  :config
+  (yas-global-mode 1))
 
 ;;;;;;;; languages
 
@@ -222,13 +232,26 @@
 ;;;; nix
 (use-package nix-mode
   :straight t)
+
+;; ruby
+(use-package rvm
+  :straight t
+  :config
+  (rvm-use-default))
+
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ansi-color-faces-vector
+   [default default default italic underline success warning error])
+ '(ansi-color-names-vector
+   ["black" "red3" "ForestGreen" "yellow3" "blue" "magenta3" "DeepSkyBlue" "gray50"])
  '(custom-safe-themes
-   '("a66b97790776954a16911f901355beb2cf1607eb8682e6d8a9654aac2a0da902" "94f9c204b7fdcef8fcc6029e10b77dea1387fe4c2380cd270d196a7f59bdb1eb" "4e12f047c0ee29f5d5c1c70855d382838dc97cda06fa962d78e407ea1384ecf3" default))
+   '("d14f3df28603e9517eb8fb7518b662d653b25b26e83bd8e129acea042b774298" "a66b97790776954a16911f901355beb2cf1607eb8682e6d8a9654aac2a0da902" "94f9c204b7fdcef8fcc6029e10b77dea1387fe4c2380cd270d196a7f59bdb1eb" "4e12f047c0ee29f5d5c1c70855d382838dc97cda06fa962d78e407ea1384ecf3" default))
+ '(ispell-dictionary nil)
  '(tool-bar-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
