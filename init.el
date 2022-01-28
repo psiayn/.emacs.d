@@ -26,7 +26,7 @@
   ;; (setq vertico-count 20)
 
   ;; Grow and shrink the Vertico minibuffer
-  (setq vertico-resize t)
+  ;; (setq vertico-resize t)
 
   ;; Optionally enable cycling for `vertico-next' and `vertico-previous'.
   (setq vertico-cycle t)
@@ -92,10 +92,10 @@
 
 
 ;; themes
-(use-package doom-themes
+(use-package gotham-theme
   :straight t
   :config
-  (load-theme 'doom-moonlight t))
+  (load-theme 'gotham t))
 
 (use-package all-the-icons
   :straight t)

@@ -2,6 +2,7 @@
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 (global-display-line-numbers-mode 1)
+(setq display-line-numbers 'relative)
 (global-visual-line-mode 1)
 (setq backup-directory-alist 
   '(("." . "~/.emacs.d/file-backups")))
