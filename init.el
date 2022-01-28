@@ -26,10 +26,10 @@
   ;; (setq vertico-count 20)
 
   ;; Grow and shrink the Vertico minibuffer
-  ;; (setq vertico-resize t)
+  (setq vertico-resize t)
 
   ;; Optionally enable cycling for `vertico-next' and `vertico-previous'.
-  ;; (setq vertico-cycle t)
+  (setq vertico-cycle t)
   )
 
 ;; Optionally use the `orderless' completion style. See
@@ -82,6 +82,8 @@
   :bind
   ("C-s" . consult-line))
 
+(load "~/.emacs.d/config/evil.el")
+
 ;; org-mode go brr
 (use-package org-bullets
   :straight t
@@ -90,10 +92,18 @@
 
 
 ;; themes
-(use-package gruvbox-theme
+(use-package doom-themes
   :straight t
   :config
-  (load-theme 'gruvbox t))
+  (load-theme 'doom-moonlight t))
+
+(use-package all-the-icons
+  :straight t)
+
+(use-package doom-modeline
+  :straight t
+  :config
+  (doom-modeline-mode 1))
 
 ;; tree-sitter
 (use-package tree-sitter
@@ -128,117 +138,8 @@
   (when (memq window-system '(mac ns x))
     (exec-path-from-shell-initialize)))
 
-;; nethack
-(straight-use-package 'nethack)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;                            lsp-mode                            ;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; completion engine
-(use-package company
-  :straight t
-  :config
-  (global-company-mode))
-
-;; errors
-(use-package flycheck
-  :straight t
-  :config (global-flycheck-mode))
-
-;; magit
-(use-package magit
-  :straight t)
-
-;; projectile
-(use-package projectile
-  :straight t
-  :config
-  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
-
-;; treemacs
-(use-package treemacs
-  :straight t)
-(use-package treemacs-projectile
-  :straight t)
-(use-package treemacs-magit
-  :straight t)
-
-;; lsp-ui
-(use-package lsp-ui
-  :straight t)
-
-;; lsp-treemacs
-(use-package lsp-treemacs
-  :straight t)
-
-;; dap
-(use-package dap-mode
-  :straight t)
-
-(use-package lsp-mode
-  :straight t
-  :config
-  (define-key lsp-mode-map (kbd "C-c l") lsp-command-map))
-
-;;;;;;;; editorconfig
-(use-package editorconfig
-  :straight t
-  :config
-  (editorconfig-mode 1))
-
-;; yasnippets
-(use-package yasnippet
-  :straight t
-  :config
-  (yas-global-mode 1))
-
-;;;;;;;; languages
-
-;;;; golang
-
-;;; hooks
-;; Set up before-save hooks to format buffer and add/delete imports.
-;; Make sure you don't have other gofmt/goimports hooks enabled.
-(defun lsp-go-install-save-hooks ()
-  (add-hook 'before-save-hook #'lsp-format-buffer t t)
-  (add-hook 'before-save-hook #'lsp-organize-imports t t))
-
-;;; installing go-mode
-(use-package go-mode
-  :straight t
-  :config
-  (add-hook 'go-mode-hook #'lsp-deferred)
-  (add-hook 'go-mode-hook #'lsp-go-install-save-hooks))
-
-;;;; rust
-(use-package rust-mode
-  :straight t
-  :config
-  (add-hook 'rust-mode-hook #'lsp-deferred))
-
-
-;;;; haskell
-(use-package haskell-mode
-  :straight t)
-(use-package lsp-haskell
-  :straight t
-  :config
-  (add-hook 'haskell-mode-hook #'lsp-deferred))
-(defun org-babel-execute:runhaskell (body params)
-  (org-babel-eval "runhaskell"
-                  (org-babel-expand-body:generic body params)))
-(add-to-list 'org-src-lang-modes '("runhaskell" . haskell))
-
-;;;; nix
-(use-package nix-mode
-  :straight t)
-
-;; ruby
-(use-package rvm
-  :straight t
-  :config
-  (rvm-use-default))
-
+(load "~/.emacs.d/config/lsp.el")
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -250,12 +151,15 @@
  '(ansi-color-names-vector
    ["black" "red3" "ForestGreen" "yellow3" "blue" "magenta3" "DeepSkyBlue" "gray50"])
  '(custom-safe-themes
-   '("d14f3df28603e9517eb8fb7518b662d653b25b26e83bd8e129acea042b774298" "a66b97790776954a16911f901355beb2cf1607eb8682e6d8a9654aac2a0da902" "94f9c204b7fdcef8fcc6029e10b77dea1387fe4c2380cd270d196a7f59bdb1eb" "4e12f047c0ee29f5d5c1c70855d382838dc97cda06fa962d78e407ea1384ecf3" default))
+   '("2d70bca08b194d0becf19a1df2c54fcb78daeeebc880042de47c735a5c837af0" "d14f3df28603e9517eb8fb7518b662d653b25b26e83bd8e129acea042b774298" "a66b97790776954a16911f901355beb2cf1607eb8682e6d8a9654aac2a0da902" "94f9c204b7fdcef8fcc6029e10b77dea1387fe4c2380cd270d196a7f59bdb1eb" "4e12f047c0ee29f5d5c1c70855d382838dc97cda06fa962d78e407ea1384ecf3" default))
+ '(global-display-line-numbers-mode t)
+ '(hl-sexp-background-color "#efebe9")
  '(ispell-dictionary nil)
+ '(show-paren-mode t)
  '(tool-bar-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:family "JetBrainsMono Nerd Font" :foundry "JB" :slant normal :weight normal :height 143 :width normal)))))
+ '(default ((t (:family "mononoki NF" :foundry "outline" :slant normal :weight normal :height 139 :width normal)))))

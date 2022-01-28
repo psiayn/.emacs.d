@@ -9,3 +9,5 @@
 ;; (add-to-list 'default-frame-alist '(alpha 90 90))
 (global-display-fill-column-indicator-mode 1)
 (show-paren-mode 1)
+;; i hate the splash screen
+(setq inhibit-splash-screen t)
