@@ -1,5 +1,5 @@
-(set-frame-font "3270Medium Nerd Font 15" nil t)
-(add-to-list 'default-frame-alist '(font . "3270Medium Nerd Font 15"))
+(set-frame-font "Hack Nerd Font 15" nil t)
+(add-to-list 'default-frame-alist '(font . "Hack Nerd Font 15"))
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 (menu-bar-mode -1)
@@ -143,10 +143,10 @@
   ;; `completion-at-point' is often bound to M-TAB.
   (setq tab-always-indent 'complete))
 
-(use-package moe-theme
+(use-package soothe-theme
   :straight t
   :config
-  (moe-dark))
+  (load-theme 'soothe t))
 
 (use-package magit
   :straight t)
@@ -181,7 +181,4 @@
   :straight t)
 
 (use-package speed-type
-  :straight t)
-
-(use-package w3m
   :straight t)
