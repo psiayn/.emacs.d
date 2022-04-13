@@ -1,3 +1,20 @@
+(set-frame-font "3270Medium Nerd Font 15" nil t)
+(add-to-list 'default-frame-alist '(font . "3270Medium Nerd Font 15"))
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
+(menu-bar-mode -1)
+(global-display-line-numbers-mode 1)
+(global-visual-line-mode 1)
+(setq backup-directory-alist 
+  '(("." . "~/.emacs.d/file-backups")))
+;; (set-frame-parameter (selected-frame) 'alpha '(90 90))
+;; (add-to-list 'default-frame-alist '(alpha 90 90))
+(global-display-fill-column-indicator-mode 1)
+(show-paren-mode 1)
+;; i hate the splash screen
+(setq inhibit-splash-screen t)
+
+
 (defvar bootstrap-version)
 (let ((bootstrap-file
        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
@@ -10,8 +27,9 @@
       (goto-char (point-max))
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
-
+(setq package-enable-at-startup nil)
 (straight-use-package 'use-package)
+
 
 ;; Enable vertico
 (use-package vertico
@@ -29,24 +47,8 @@
   ;; (setq vertico-resize t)
 
   ;; Optionally enable cycling for `vertico-next' and `vertico-previous'.
-  (setq vertico-cycle t)
+  ;; (setq vertico-cycle t)
   )
-
-;; Optionally use the `orderless' completion style. See
-;; `+orderless-dispatch' in the Consult wiki for an advanced Orderless style
-;; dispatcher. Additionally enable `partial-completion' for file path
-;; expansion. `partial-completion' is important for wildcard support.
-;; Multiple files can be opened at once with `find-file' if you enter a
-;; wildcard. You may also give the `initials' completion style a try.
-(use-package orderless
-  :straight t
-  :init
-  ;; Configure a custom style dispatcher (see the Consult wiki)
-  ;; (setq orderless-style-dispatchers '(+orderless-dispatch)
-  ;;       orderless-component-separator #'orderless-escapable-split-on-space)
-  (setq completion-styles '(orderless)
-        completion-category-defaults nil
-        completion-category-overrides '((file (styles partial-completion)))))
 
 ;; Persist history over Emacs restarts. Vertico sorts by history position.
 (use-package savehist
@@ -71,95 +73,115 @@
 
   ;; Emacs 28: Hide commands in M-x which do not work in the current mode.
   ;; Vertico commands are hidden in normal buffers.
-  ;; (setq read-extended-command-predicate
-  ;;       #'command-completion-default-include-p)
+  (setq read-extended-command-predicate
+        #'command-completion-default-include-p)
 
   ;; Enable recursive minibuffers
   (setq enable-recursive-minibuffers t))
-;; consult
+
+;; Optionally use the `orderless' completion style.
+(use-package orderless
+  :straight t
+  :init
+  ;; Configure a custom style dispatcher (see the Consult wiki)
+  ;; (setq orderless-style-dispatchers '(+orderless-dispatch)
+  ;;       orderless-component-separator #'orderless-escapable-split-on-space)
+  (setq completion-styles '(orderless basic)
+        completion-category-defaults nil
+        completion-category-overrides '((file (styles partial-completion)))))
+
 (use-package consult
   :straight t
   :bind
   ("C-s" . consult-line))
 
-(load "~/.emacs.d/config/evil.el")
+(use-package corfu
+  :straight t
+  ;; Optional customizations
+  :custom
+  (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
+  (corfu-auto t)                 ;; Enable auto completion
+  ;; (corfu-separator ?\s)          ;; Orderless field separator
+  ;; (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
+  ;; (corfu-quit-no-match nil)      ;; Never quit, even if there is no match
+  ;; (corfu-preview-current nil)    ;; Disable current candidate preview
+  ;; (corfu-preselect-first nil)    ;; Disable candidate preselection
+  ;; (corfu-on-exact-match nil)     ;; Configure handling of exact matches
+  ;; (corfu-echo-documentation nil) ;; Disable documentation in the echo area
+  (corfu-scroll-margin 5)        ;; Use scroll margin
 
-;; org-mode go brr
-(use-package org-bullets
+  ;; You may want to enable Corfu only for certain modes.
+  ;; :hook ((prog-mode . corfu-mode)
+  ;;        (shell-mode . corfu-mode)
+  ;;        (eshell-mode . corfu-mode))
+
+  ;; Recommended: Enable Corfu globally.
+  ;; This is recommended since dabbrev can be used globally (M-/).
+  :init
+  (corfu-global-mode))
+
+;; Use dabbrev with Corfu!
+(use-package dabbrev
+  :straight t
+  ;; Swap M-/ and C-M-/
+  :bind (("M-/" . dabbrev-completion)
+         ("C-M-/" . dabbrev-expand)))
+
+;; A few more useful configurations...
+(use-package emacs
+  :straight t
+  :init
+  ;; TAB cycle if there are only few candidates
+  (setq completion-cycle-threshold 3)
+
+  ;; Emacs 28: Hide commands in M-x which do not apply to the current mode.
+  ;; Corfu commands are hidden, since they are not supposed to be used via M-x.
+  (setq read-extended-command-predicate
+        #'command-completion-default-include-p)
+
+  ;; Enable indentation+completion using the TAB key.
+  ;; `completion-at-point' is often bound to M-TAB.
+  (setq tab-always-indent 'complete))
+
+(use-package moe-theme
   :straight t
   :config
-  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+  (moe-dark))
 
-
-;; themes
-(use-package gotham-theme
-  :straight t
-  :config
-  (load-theme 'gotham t))
-
-(use-package all-the-icons
+(use-package magit
   :straight t)
 
-(use-package doom-modeline
-  :straight t
-  :config
-  (doom-modeline-mode 1))
-
-;; tree-sitter
-(use-package tree-sitter
-  :straight t)
-(use-package tree-sitter-langs
-  :straight t)
-(global-tree-sitter-mode)
-(add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
-
-;; hydra
-(use-package hydra
+(use-package lsp-mode
   :straight t)
 
-;; which-key
+(use-package lsp-ui
+  :straight t)
+
+(use-package dap-mode
+  :straight t)
+
+(use-package flycheck
+  :straight t)
+
 (use-package which-key
   :straight t
   :config
   (which-key-mode))
 
-;; ace-window
-(use-package ace-window
+(use-package nix-mode
   :straight t
-  :bind
-  ("M-o" . ace-window))
+  :hook
+  (nix-mode . lsp-deferred))
 
-;; exec path from shell
-(use-package exec-path-from-shell
+(use-package rust-mode
   :straight t
-  :config
-  (when (daemonp)
-    (exec-path-from-shell-initialize))
-  (when (memq window-system '(mac ns x))
-    (exec-path-from-shell-initialize)))
+  :hook (rust-mode . lsp-deferred))
 
+(use-package rustic
+  :straight t)
 
-(load "~/.emacs.d/config/lsp.el")
+(use-package speed-type
+  :straight t)
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(ansi-color-faces-vector
-   [default default default italic underline success warning error])
- '(ansi-color-names-vector
-   ["black" "red3" "ForestGreen" "yellow3" "blue" "magenta3" "DeepSkyBlue" "gray50"])
- '(custom-safe-themes
-   '("2d70bca08b194d0becf19a1df2c54fcb78daeeebc880042de47c735a5c837af0" "d14f3df28603e9517eb8fb7518b662d653b25b26e83bd8e129acea042b774298" "a66b97790776954a16911f901355beb2cf1607eb8682e6d8a9654aac2a0da902" "94f9c204b7fdcef8fcc6029e10b77dea1387fe4c2380cd270d196a7f59bdb1eb" "4e12f047c0ee29f5d5c1c70855d382838dc97cda06fa962d78e407ea1384ecf3" default))
- '(global-display-line-numbers-mode t)
- '(hl-sexp-background-color "#efebe9")
- '(ispell-dictionary nil)
- '(show-paren-mode t)
- '(tool-bar-mode nil))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:family "mononoki NF" :foundry "outline" :slant normal :weight normal :height 139 :width normal)))))
+(use-package w3m
+  :straight t)
