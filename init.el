@@ -1,5 +1,5 @@
-(set-frame-font "Hack Nerd Font 15" nil t)
-(add-to-list 'default-frame-alist '(font . "Hack Nerd Font 15"))
+(set-frame-font "Iosevka Nerd Font 15" nil t)
+(add-to-list 'default-frame-alist '(font . "Iosevka Nerd Font 15"))
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 (menu-bar-mode -1)
@@ -30,135 +30,76 @@
 (setq package-enable-at-startup nil)
 (straight-use-package 'use-package)
 
+(use-package swiper
+  :straight t)
+(use-package counsel
+  :straight t)
 
-;; Enable vertico
-(use-package vertico
-  :straight t
-  :init
-  (vertico-mode)
-
-  ;; Different scroll margin
-  ;; (setq vertico-scroll-margin 0)
-
-  ;; Show more candidates
-  ;; (setq vertico-count 20)
-
-  ;; Grow and shrink the Vertico minibuffer
-  ;; (setq vertico-resize t)
-
-  ;; Optionally enable cycling for `vertico-next' and `vertico-previous'.
-  ;; (setq vertico-cycle t)
-  )
-
-;; Persist history over Emacs restarts. Vertico sorts by history position.
-(use-package savehist
-  :straight t
-  :init
-  (savehist-mode))
-
-;; A few more useful configurations...
-(use-package emacs
-  :straight t
-  :init
-  ;; Add prompt indicator to `completing-read-multiple'.
-  ;; Alternatively try `consult-completing-read-multiple'.
-  (defun crm-indicator (args)
-    (cons (concat "[CRM] " (car args)) (cdr args)))
-  (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
-
-  ;; Do not allow the cursor in the minibuffer prompt
-  (setq minibuffer-prompt-properties
-        '(read-only t cursor-intangible t face minibuffer-prompt))
-  (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
-
-  ;; Emacs 28: Hide commands in M-x which do not work in the current mode.
-  ;; Vertico commands are hidden in normal buffers.
-  (setq read-extended-command-predicate
-        #'command-completion-default-include-p)
-
-  ;; Enable recursive minibuffers
-  (setq enable-recursive-minibuffers t))
-
-;; Optionally use the `orderless' completion style.
-(use-package orderless
-  :straight t
-  :init
-  ;; Configure a custom style dispatcher (see the Consult wiki)
-  ;; (setq orderless-style-dispatchers '(+orderless-dispatch)
-  ;;       orderless-component-separator #'orderless-escapable-split-on-space)
-  (setq completion-styles '(orderless basic)
-        completion-category-defaults nil
-        completion-category-overrides '((file (styles partial-completion)))))
-
-(use-package consult
-  :straight t
-  :bind
-  ("C-s" . consult-line))
-
-(use-package corfu
-  :straight t
-  ;; Optional customizations
-  :custom
-  (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
-  (corfu-auto t)                 ;; Enable auto completion
-  ;; (corfu-separator ?\s)          ;; Orderless field separator
-  ;; (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
-  ;; (corfu-quit-no-match nil)      ;; Never quit, even if there is no match
-  ;; (corfu-preview-current nil)    ;; Disable current candidate preview
-  ;; (corfu-preselect-first nil)    ;; Disable candidate preselection
-  ;; (corfu-on-exact-match nil)     ;; Configure handling of exact matches
-  ;; (corfu-echo-documentation nil) ;; Disable documentation in the echo area
-  (corfu-scroll-margin 5)        ;; Use scroll margin
-
-  ;; You may want to enable Corfu only for certain modes.
-  ;; :hook ((prog-mode . corfu-mode)
-  ;;        (shell-mode . corfu-mode)
-  ;;        (eshell-mode . corfu-mode))
-
-  ;; Recommended: Enable Corfu globally.
-  ;; This is recommended since dabbrev can be used globally (M-/).
-  :init
-  (corfu-global-mode))
-
-;; Use dabbrev with Corfu!
-(use-package dabbrev
-  :straight t
-  ;; Swap M-/ and C-M-/
-  :bind (("M-/" . dabbrev-completion)
-         ("C-M-/" . dabbrev-expand)))
-
-;; A few more useful configurations...
-(use-package emacs
-  :straight t
-  :init
-  ;; TAB cycle if there are only few candidates
-  (setq completion-cycle-threshold 3)
-
-  ;; Emacs 28: Hide commands in M-x which do not apply to the current mode.
-  ;; Corfu commands are hidden, since they are not supposed to be used via M-x.
-  (setq read-extended-command-predicate
-        #'command-completion-default-include-p)
-
-  ;; Enable indentation+completion using the TAB key.
-  ;; `completion-at-point' is often bound to M-TAB.
-  (setq tab-always-indent 'complete))
-
-(use-package soothe-theme
+(use-package ivy
   :straight t
   :config
-  (load-theme 'soothe t))
+  (ivy-mode)
+  (setq ivy-use-virtual-buffers t)
+  (setq enable-recursive-minibuffers t)
+  ;; enable this if you want `swiper' to use it
+  ;; (setq search-default-mode #'char-fold-to-regexp)
+  (global-set-key "\C-s" 'swiper)
+  (global-set-key (kbd "C-c C-r") 'ivy-resume)
+  (global-set-key (kbd "<f6>") 'ivy-resume)
+  (global-set-key (kbd "M-x") 'counsel-M-x)
+  (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+  (global-set-key (kbd "<f1> f") 'counsel-describe-function)
+  (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
+  (global-set-key (kbd "<f1> o") 'counsel-describe-symbol)
+  (global-set-key (kbd "<f1> l") 'counsel-find-library)
+  (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
+  (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
+  (global-set-key (kbd "C-c g") 'counsel-git)
+  (global-set-key (kbd "C-c j") 'counsel-git-grep)
+  (global-set-key (kbd "C-c k") 'counsel-rg)
+  (global-set-key (kbd "C-x l") 'counsel-locate)
+  (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
+  (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history))
+
+(use-package darktooth-theme
+  :straight t
+  :config
+  (load-theme 'darktooth t)
+  (darktooth-modeline))
 
 (use-package magit
   :straight t)
 
+(use-package company
+  :straight t
+  :config
+  (add-hook 'after-init-hook 'global-company-mode))
+
 (use-package lsp-mode
-  :straight t)
+  :straight t
+  ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
+  :config
+  (define-key lsp-mode-map (kbd "C-c l") lsp-command-map)
+  :hook (lsp-mode . (lambda ()
+                      (let ((lsp-keymap-prefix "C-c l"))
+                        (lsp-enable-which-key-integration))))  
+  :commands lsp)
 
+;; optionally
 (use-package lsp-ui
-  :straight t)
+  :straight t
+  :commands lsp-ui-mode)
+;; if you are ivy user
+(use-package lsp-ivy
+  :straight t
+  :commands lsp-ivy-workspace-symbol)
+(use-package lsp-treemacs
+  :straight t
+  :commands lsp-treemacs-errors-list)
 
-(use-package dap-mode
-  :straight t)
+;; optionally if you want to use debugger
+(use-package dap-mode :straight t)
+;; (use-package dap-LANGUAGE) to load the dap adapter for your language
 
 (use-package flycheck
   :straight t)
@@ -182,3 +123,38 @@
 
 (use-package speed-type
   :straight t)
+
+(use-package projectile
+  :straight t
+  :config
+  (projectile-mode +1)
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+  )
+
+(use-package envrc
+  :straight t
+  :config
+  (envrc-global-mode))
+
+(use-package go-mode
+  :straight t
+  :config 
+  (add-hook 'go-mode-hook #'lsp-deferred))
+
+(use-package exec-path-from-shell
+  :straight t
+  :config
+  (when (memq window-system '(mac ns x))
+    (exec-path-from-shell-initialize))
+  (when (daemonp)
+    (exec-path-from-shell-initialize)))
+
+
+(defun spawn-eshell ()
+  "Open a `shell' in a new window."
+  (interactive)
+  (let ((buf (eshell)))
+    (switch-to-buffer (other-buffer buf))
+    (switch-to-buffer-other-window buf)))
+(setq split-width-threshold nil)
+(global-set-key (kbd "C-c t") 'spawn-eshell)

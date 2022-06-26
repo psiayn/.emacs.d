@@ -4,3 +4,11 @@ auto-save-list
 .lsp*
 straight
 transient
+.dap-breakpoints
+.local
+elpa/
+eshell/
+eln-cache/
+projectile*
+recentf
+speed-type/
