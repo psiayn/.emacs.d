@@ -61,11 +61,24 @@
   (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
   (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history))
 
-(use-package darktooth-theme
+(use-package doom-modeline
+  :straight t
+  :hook (after-init . doom-modeline-mode))
+
+(use-package all-the-icons
+  :straight t)
+
+(use-package doom-themes
   :straight t
   :config
-  (load-theme 'darktooth t)
-  (darktooth-modeline))
+  (load-theme 'doom-vibrant t))
+
+(use-package tree-sitter
+  :straight t)
+(use-package tree-sitter-langs
+  :straight t)
+(global-tree-sitter-mode)
+(add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
 
 (use-package magit
   :straight t)
@@ -158,3 +171,16 @@
     (switch-to-buffer-other-window buf)))
 (setq split-width-threshold nil)
 (global-set-key (kbd "C-c t") 'spawn-eshell)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   '("a3010c151dc4f42d56dec26a85ae5640afc227bece71d058e394667718b66a49" "545ab1a535c913c9214fe5b883046f02982c508815612234140240c129682a68" "016f665c0dd5f76f8404124482a0b13a573d17e92ff4eb36a66b409f4d1da410" default)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
