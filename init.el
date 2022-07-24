@@ -154,6 +154,11 @@
   :config 
   (add-hook 'go-mode-hook #'lsp-deferred))
 
+(use-package typescript-mode
+  :straight t
+  :config
+  (add-hook 'typescript-mode-hook #'lsp-deferred))
+
 (use-package exec-path-from-shell
   :straight t
   :config
@@ -171,16 +176,3 @@
     (switch-to-buffer-other-window buf)))
 (setq split-width-threshold nil)
 (global-set-key (kbd "C-c t") 'spawn-eshell)
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   '("a3010c151dc4f42d56dec26a85ae5640afc227bece71d058e394667718b66a49" "545ab1a535c913c9214fe5b883046f02982c508815612234140240c129682a68" "016f665c0dd5f76f8404124482a0b13a573d17e92ff4eb36a66b409f4d1da410" default)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
