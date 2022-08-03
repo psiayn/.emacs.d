@@ -93,15 +93,25 @@
   ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
   :config
   (define-key lsp-mode-map (kbd "C-c l") lsp-command-map)
+  (setq lsp-eldoc-enable-hover nil)
+  (setq lsp-signature-render-documentation nil)
   :hook (lsp-mode . (lambda ()
                       (let ((lsp-keymap-prefix "C-c l"))
                         (lsp-enable-which-key-integration))))  
   :commands lsp)
 
+(use-package editorconfig
+  :straight t
+  :config
+  (editorconfig-mode 1))
+
 ;; optionally
 (use-package lsp-ui
   :straight t
-  :commands lsp-ui-mode)
+  :commands lsp-ui-mode
+  :config
+  (setq lsp-ui-doc-enable nil)
+  )
 ;; if you are ivy user
 (use-package lsp-ivy
   :straight t
@@ -157,7 +167,16 @@
 (use-package typescript-mode
   :straight t
   :config
-  (add-hook 'typescript-mode-hook #'lsp-deferred))
+  (add-hook 'typescript-mode-hook #'lsp-deferred)
+  (setq typescript-indent-level 2))
+
+(use-package multiple-cursors
+  :straight t
+  :config
+  (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+  (global-set-key (kbd "C->") 'mc/mark-next-like-this)
+  (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+  (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this))
 
 (use-package exec-path-from-shell
   :straight t
