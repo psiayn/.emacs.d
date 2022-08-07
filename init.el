@@ -1,5 +1,5 @@
-(set-frame-font "Iosevka Nerd Font 15" nil t)
-(add-to-list 'default-frame-alist '(font . "Iosevka Nerd Font 15"))
+(set-frame-font "JetBrainsMono Nerd Font 15" nil t)
+(add-to-list 'default-frame-alist '(font . "JetBrainsMono Nerd Font 15"))
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 (menu-bar-mode -1)
@@ -71,7 +71,7 @@
 (use-package doom-themes
   :straight t
   :config
-  (load-theme 'doom-vibrant t))
+  (load-theme 'doom-horizon t))
 
 (use-package tree-sitter
   :straight t)
@@ -93,8 +93,6 @@
   ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
   :config
   (define-key lsp-mode-map (kbd "C-c l") lsp-command-map)
-  (setq lsp-eldoc-enable-hover nil)
-  (setq lsp-signature-render-documentation nil)
   :hook (lsp-mode . (lambda ()
                       (let ((lsp-keymap-prefix "C-c l"))
                         (lsp-enable-which-key-integration))))  
@@ -108,10 +106,8 @@
 ;; optionally
 (use-package lsp-ui
   :straight t
-  :commands lsp-ui-mode
-  :config
-  (setq lsp-ui-doc-enable nil)
-  )
+  :commands lsp-ui-mode)
+
 ;; if you are ivy user
 (use-package lsp-ivy
   :straight t
