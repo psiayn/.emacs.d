@@ -1,5 +1,5 @@
-(set-frame-font "JetBrainsMono Nerd Font 15" nil t)
-(add-to-list 'default-frame-alist '(font . "JetBrainsMono Nerd Font 15"))
+(set-frame-font "Hurmit Nerd Font 15" nil t)
+(add-to-list 'default-frame-alist '(font . "Hurmit Nerd Font 15"))
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 (menu-bar-mode -1)
@@ -149,11 +149,6 @@
   (projectile-mode +1)
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
   )
-
-(use-package envrc
-  :straight t
-  :config
-  (envrc-global-mode))
 
 (use-package go-mode
   :straight t
