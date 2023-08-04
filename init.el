@@ -1,5 +1,8 @@
-(set-frame-font "Hurmit Nerd Font 15" nil t)
-(add-to-list 'default-frame-alist '(font . "Hurmit Nerd Font 15"))
+(setenv "PATH" (concat (getenv "PATH") ":/opt/homebrew/bin"))
+(setq exec-path (append exec-path '("/opt/homebrew/bin")))
+
+(set-frame-font "GohuFont uni11 Nerd Font 17" nil t)
+(add-to-list 'default-frame-alist '(font . "GohuFont uni11 Nerd Font 17"))
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 (menu-bar-mode -1)
@@ -68,10 +71,15 @@
 (use-package all-the-icons
   :straight t)
 
+;; (use-package doom-themes
+;;   :straight t
+;;   :config
+;;   (load-theme 'doom-horizon t))
+
 (use-package doom-themes
   :straight t
   :config
-  (load-theme 'doom-horizon t))
+  (load-theme 'doom-spacegrey t))
 
 (use-package tree-sitter
   :straight t)
@@ -150,16 +158,28 @@
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
   )
 
+(use-package ripgrep
+  :straight t)
+
+(use-package projectile-ripgrep
+  :straight t)
+
 (use-package go-mode
   :straight t
   :config 
   (add-hook 'go-mode-hook #'lsp-deferred))
+
+(use-package sly
+  :straight t)
 
 (use-package typescript-mode
   :straight t
   :config
   (add-hook 'typescript-mode-hook #'lsp-deferred)
   (setq typescript-indent-level 2))
+
+(use-package dockerfile-mode
+  :straight t)
 
 (use-package multiple-cursors
   :straight t
@@ -186,3 +206,19 @@
     (switch-to-buffer-other-window buf)))
 (setq split-width-threshold nil)
 (global-set-key (kbd "C-c t") 'spawn-eshell)
+
+(use-package pdf-tools
+  :straight t)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   '("ae426fc51c58ade49774264c17e666ea7f681d8cae62570630539be3d06fd964" default)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
