@@ -1,8 +1,8 @@
 (setenv "PATH" (concat (getenv "PATH") ":/opt/homebrew/bin"))
 (setq exec-path (append exec-path '("/opt/homebrew/bin")))
 
-(set-frame-font "GohuFont uni11 Nerd Font 17" nil t)
-(add-to-list 'default-frame-alist '(font . "GohuFont uni11 Nerd Font 17"))
+(set-frame-font "Hurmit Nerd Font 17" nil t)
+(add-to-list 'default-frame-alist '(font . "Hurmit Nerd Font 17"))
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 (menu-bar-mode -1)
@@ -32,6 +32,11 @@
   (load bootstrap-file nil 'nomessage))
 (setq package-enable-at-startup nil)
 (straight-use-package 'use-package)
+
+(use-package evil
+  :straight t
+  :config
+  (evil-mode 1))
 
 (use-package swiper
   :straight t)
@@ -71,15 +76,10 @@
 (use-package all-the-icons
   :straight t)
 
-;; (use-package doom-themes
-;;   :straight t
-;;   :config
-;;   (load-theme 'doom-horizon t))
-
 (use-package doom-themes
   :straight t
   :config
-  (load-theme 'doom-spacegrey t))
+  (load-theme 'doom-material t))
 
 (use-package tree-sitter
   :straight t)
@@ -209,16 +209,3 @@
 
 (use-package pdf-tools
   :straight t)
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   '("ae426fc51c58ade49774264c17e666ea7f681d8cae62570630539be3d06fd964" default)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
